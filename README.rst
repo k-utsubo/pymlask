@@ -21,6 +21,13 @@ MeCab binary
 * macOS with Homebrew: $ brew install mecab mecab-ipadic
 * Ubuntu: $ sudo apt install mecab libmecab-dev mecab-ipadic-utf8
 
+Janome 
+-------------
+* Janome (蛇の目; ◉) is a Japanese morphological analysis engine (or tokenizer, pos-tagger) written in pure Python
+* Mecab cannot be installed, use Janome library
+# Ubuntu: $ pip install janome 
+
+
 Installation
 ==============
 Modified dictionary version (recommended)

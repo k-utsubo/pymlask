@@ -6,8 +6,12 @@ import re
 import collections
 import pkgutil
 from sys import version_info
-import MeCab
-
+TOKENIZER="mecab"
+try:
+    import MeCab
+except:
+    from janome.tokenizer import Tokenizer
+    TOKENIZER="janome"
 
 """
 ML-Ask (eMotive eLement and Expression Analysis system) is a keyword-based language-dependent system
@@ -68,12 +72,16 @@ class MLAsk(object):
         >>> mlask.MLAsk('-d /usr/local/lib/mecab/dic/ipadic')  #doctest: +ELLIPSIS
         <mlask.MLAsk object at 0x...>
         """
-        if PY2:
-            mecab_arg = mecab_arg.encode('utf8')
-        self.mecab = MeCab.Tagger(mecab_arg)
+        if TOKENIZER=="mecab":
+            if PY2:
+                mecab_arg = mecab_arg.encode('utf8')
+            self.mecab = MeCab.Tagger(mecab_arg)
+
+            if not PY2:
+                self.mecab.parse('')
+        else:
+            self.tokenizer=Tokenizer()
         self._read_emodic()
-        if not PY2:
-            self.mecab.parse('')
 
     def _read_emodic(self):
         """ Load emotion dictionaries """
@@ -166,7 +174,13 @@ class MLAsk(object):
 
         if PY2:
             text = text.encode('utf8')
-        for line in self.mecab.parse(text).splitlines():
+
+        if TOKENIZER=="mecab":
+            lines=self.mecab.parse(text).splitlines()
+        else:
+            lines=[str(l) for l in self.tokenizer.tokenize(text)]
+
+        for line in lines:
             try:
                 if PY2:
                     line = line.decode('utf8')

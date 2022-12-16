@@ -6,6 +6,8 @@ import re
 from setuptools import setup
 
 install_requires = [] if pkgutil.find_loader('MeCab') else ['mecab']
+if len(install_requires)!= 0:
+    install_requires = [] if pkgutil.find_loader('janome') else ['janome']
 
 with open(os.path.join('mlask', '__init__.py'), 'r', encoding='utf8') as f:
     version = re.compile(

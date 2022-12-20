@@ -80,7 +80,7 @@ class MLAsk(object):
             if not PY2:
                 self.mecab.parse('')
         else:
-            self.tokenizer=Tokenizer()
+            self.tokenizer=Tokenizer(mecab_arg)
         self._read_emodic()
 
     def _read_emodic(self):

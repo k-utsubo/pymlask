@@ -24,8 +24,8 @@ MeCab binary
 Janome 
 -------------
 * Janome (蛇の目; ◉) is a Japanese morphological analysis engine (or tokenizer, pos-tagger) written in pure Python
-* Mecab cannot be installed, use Janome library
-# Ubuntu: $ pip install janome 
+* Mecab cannot be installed, use Janome library automatically
+# Ubuntu: $ pip uninstall mecab-python3 && pip install janome
 
 
 Installation
@@ -49,6 +49,24 @@ Example
 
  from mlask import MLAsk
  emotion_analyzer = MLAsk()
+ emotion_analyzer.analyze('彼のことは嫌いではない！(;´Д`)')
+ # => {'text': '彼のことは嫌いではない！(;´Д`)',
+ #     'emotion': defaultdict(<class 'list'>,{'yorokobi': ['嫌い*CVS'], 'suki': ['嫌い*CVS']}),
+ #     'orientation': 'POSITIVE',
+ #     'activation': 'NEUTRAL',
+ #     'emoticon': ['(;´Д`)'],
+ #     'intension': 2,
+ #     'intensifier': {'exclamation': ['！'], 'emotikony': ['´Д`', 'Д`', '´Д', '(;´Д`)']},
+ #     'representative': ('yorokobi', ['嫌い*CVS'])
+ #     }
+ emotion_analyzer = mlask.MLAsk('-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')  # Use other dictionary
+
+Example(for Janome)
+===========
+.. code:: python
+
+ from mlask import MLAsk
+ emotion_analyzer = MLAsk("../neologd") # user dictionary directory
  emotion_analyzer.analyze('彼のことは嫌いではない！(;´Д`)')
  # => {'text': '彼のことは嫌いではない！(;´Д`)',
  #     'emotion': defaultdict(<class 'list'>,{'yorokobi': ['嫌い*CVS'], 'suki': ['嫌い*CVS']}),
